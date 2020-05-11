@@ -10,14 +10,14 @@
     <form name="tableform">
     Фильтрация
     <label>Выберете колонку по которой будет происходить фильтрация</label>
-    <select name="select_filter" onchange="select_filter(this.options[this.selectedIndex].value)">
+    <select name="select_filter" onchange="table_select_filter(this.options[this.selectedIndex].value)">
         <option></option>
         <option value="table_name">Название</option>
         <option value="table_count">Количество</option>
         <option value="table_distance">Растояние</option>
     </select>
     <div id="symbol_filter" class="hide">
-        <select name="select_filter">
+        <select name="select_symbol">
             <option value="=">Равно</option>
             <option value="LIKE">Содержит</option>
             <option value="<">Меньше</option>

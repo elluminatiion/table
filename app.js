@@ -68,7 +68,7 @@ function loadurl(filename, method, send = null) {
     };
 }
 
-function select_filter(table_filter_option) {
+function table_select_filter(table_filter_option) {
     if (table_filter_option) {
         let table_filter = document.getElementById('table_filter');
         let table_cond = '';
