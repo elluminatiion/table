@@ -1,6 +1,6 @@
 let form_data;
 let count_pagination = 4; //Количество строк для вывода
-let table_name = 'table_form';//
+let table_name = 'table_form&rows=' + count_pagination;//название таблицы
 loadurl('request.php?table_name=' + table_name, 'GET');
 
 function parsejs(obj) {
@@ -10,8 +10,6 @@ function parsejs(obj) {
 function createtable(data, pagination = null) {
     let tbodyid = document.getElementById('table_class');
     tbodyid.innerHTML = '';
-    let i = 0;
-    let y = 0;
     let pag = document.getElementById('pagination');
     pag.innerHTML = '';
     countrows = data.countall[0][0] / count_pagination;
@@ -38,8 +36,8 @@ function createtable(data, pagination = null) {
 }
 
 function switch_pag(y) {
-    post = y-- + ',4';
-    loadurl('request.php?table_name=' + table_name + '&limit=' + post, 'POST', '', y++);
+    limit = (y-1)*count_pagination;
+    loadurl('request.php?table_name=' + table_name + '&limit=' + limit, 'POST', '', y++);
     /*
      pag = document.getElementsByClassName('pag');
      for (i = 0; i < pag.length; i++) {
