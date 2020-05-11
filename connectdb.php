@@ -20,9 +20,9 @@ class connectdb
         }
     }
 
-    function sql_select($table, $fields, $cond = null)
+    function sql_select($table, $fields, $cond = null, $limit = null)
     {
-        $res = "SELECT " . $fields . " FROM " . $table . ($cond ? " WHERE " . $cond : '');
+        $res = "SELECT " . $fields . " FROM " . $table . ($cond ? " WHERE " . $cond : '') . $limit;
         $row = $this->sql->prepare($res);
         $row->execute();
         return $row->fetchAll();

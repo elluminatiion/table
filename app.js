@@ -1,29 +1,33 @@
-loadurl('request.php?table_name=table_form', 'POST');
+let form_data;
+let count_pagination = 4; //Количество строк для вывода
+let table_name = 'table_form';//
+loadurl('request.php?table_name=' + table_name, 'GET');
 
 function parsejs(obj) {
     return JSON.parse(obj);
 }
 
-function createtable(data) {
+function createtable(data, pagination = null) {
     let tbodyid = document.getElementById('table_class');
     tbodyid.innerHTML = '';
     let i = 0;
     let y = 0;
     let pag = document.getElementById('pagination');
     pag.innerHTML = '';
-    data.forEach(elem => {
-            if (i <= 3) {
-                i++;
-            } else {
-                i = 1;
-                y++;
-                if (y === 1) {
-                    pag.innerHTML = '<div class="pag" onclick="switch_pag(1)">1</div>';
-                } else {
-                    pag.innerHTML += '<div class="point pag" onclick="switch_pag(' + y + ')">' + y + '</div>';
-                }
-            }
-            tbodyid.innerHTML += '<tr class="pag' + y + ' hide">' +
+    countrows = data.countall[0][0] / count_pagination;
+    if (pagination === null) {
+        pagination = 1;
+    }
+    for (i = 1; i <= countrows; i++) {
+        if (i !== pagination) {
+            addclass = ' point';
+        } else {
+            addclass = '';
+        }
+        pag.innerHTML += '<div class="pag' + addclass + '" onclick="switch_pag(' + i + ')">' + i + '</div>';
+    }
+    data.array.forEach(elem => {
+            tbodyid.innerHTML += '<tr>' +
                 '<td>' + elem.table_date + '</td>' +
                 '<td>' + elem.table_name + '</td>' +
                 '<td>' + elem.table_count + '</td>' +
@@ -31,37 +35,36 @@ function createtable(data) {
                 '</tr>'
         }
     );
-    let hide_elem = document.getElementsByClassName('pag0');
-    for (i = 0; i < hide_elem.length; i++) {
-        hide_elem[i].style.display = 'table-row';
-    }
 }
 
 function switch_pag(y) {
-    pag = document.getElementsByClassName('pag');
-    for (i = 0; i < pag.length; i++) {
-        pag[i].classList.add('point');
-        pagi = document.getElementsByClassName('pag' + i);
-        for (z = 0; z < pagi.length; z++) {
-            pagi[z].style.display = 'none';
-        }
+    post = y-- + ',4';
+    loadurl('request.php?table_name=' + table_name + '&limit=' + post, 'POST', '', y++);
+    /*
+     pag = document.getElementsByClassName('pag');
+     for (i = 0; i < pag.length; i++) {
+         pag[i].classList.add('point');
+         pagi = document.getElementsByClassName('pag' + i);
+         for (z = 0; z < pagi.length; z++) {
+             pagi[z].style.display = 'none';
+         }
 
-    }
-    y--;
-    pag[y].classList.remove('point');
-    pagi = document.getElementsByClassName('pag' + y);
-    for (z = 0; z < pagi.length; z++) {
-        pagi[z].style.display = 'table-row';
-    }
+     }
+     y--;
+     pag[y].classList.remove('point');
+     pagi = document.getElementsByClassName('pag' + y);
+     for (z = 0; z < pagi.length; z++) {
+         pagi[z].style.display = 'table-row';
+     }*/
 }
 
-function loadurl(filename, method, send = null) {
+function loadurl(filename, method, send = null, pagination = null) {
     xhr = new XMLHttpRequest();
     xhr.open(method, filename, true);
     xhr.send(send);
     xhr.onload = function (e) {
         if (this.readyState === 4 && this.status === 200) {
-            createtable(parsejs(this.responseText));
+            createtable(parsejs(this.responseText), pagination);
             return this.responseText;
         }
     };
@@ -82,5 +85,5 @@ function table_select_filter(table_filter_option) {
 
 function table_filter() {
     form_data = new FormData(document.forms.tableform);
-    loadurl('request.php?table=table_form', 'POST', form_data);
+    loadurl('request.php?table=' + table_name, 'POST', form_data);
 }
