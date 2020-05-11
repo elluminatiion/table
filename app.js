@@ -82,5 +82,6 @@ function select_filter(table_filter_option) {
 }
 
 function table_filter() {
+    form_data = new FormData(document.forms.tableform);
     loadurl('request.php?table=table_form', 'POST', form_data);
 }
