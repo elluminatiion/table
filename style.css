@@ -1,26 +1,32 @@
 .sttab {
-    width:100%;
-    margin:50px auto;
+    width: 100%;
+    margin: 50px auto;
     border-collapse: collapse;
     text-align: center;
 }
-.sttab td,th{
+
+.sttab td, th {
     border: 1px solid black;
 }
+
 .hide {
     display: none;
 }
+
 .point {
     cursor: pointer;
-    color:blue;
+    color: blue;
 }
+
 .pag {
     display: inline-block;
-    margin:5px;
+    margin: 5px;
 }
+
 #pagination {
     text-align: center;
 }
- #table_filter {
+
+#table_filter {
     display: inline-block;
 }

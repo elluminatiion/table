@@ -1,4 +1,5 @@
 <?php
+include 'config.php';
 include 'connectdb.php';
 $sql = new connectdb();
 $cond = '';

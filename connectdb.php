@@ -1,18 +1,18 @@
 <?php
 
-
 class connectdb
 {
     protected $db, $login, $password, $sql, $dbname;
 
     function __construct()
     {
-        $this->login = 'root';
-        $this->password = 'root';
-        $this->db = 'localhost';
-        $this->dbname = 'table_table';
+        global $config;
+        $this->login = $config['login'];
+        $this->password = $config['password'];
+        $this->host = $config['host'];
+        $this->dbname = $config['dbname'];
         try {
-            $this->sql = new PDO('mysql:host=' . $this->db . ';dbname=' . $this->dbname . ';',
+            $this->sql = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbname . ';',
                 $this->login, $this->password);
         } catch (PDOException $e) {
             print "Error:" . $e->getMessage();
