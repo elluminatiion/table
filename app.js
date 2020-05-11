@@ -1,6 +1,4 @@
-let data = '';
-
-loadurl('request.php?table=table_form', 'GET');
+loadurl('request.php?table_name=table_form', 'POST');
 
 function parsejs(obj) {
     return JSON.parse(obj);
