@@ -11,5 +11,3 @@ $array['countall'] = $sql->sql_select($_GET['table_name'], 'COUNT(*)', $cond);
 $limit = ($_GET['limit'] ? ' LIMIT ' . $_GET['limit'] . ',' . $_GET['rows'] : ' LIMIT 0,' . $_GET['rows']);
 $array['array'] = $sql->sql_select($_GET['table_name'], '*', $cond, $limit);
 echo json_encode($array);
-
-

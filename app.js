@@ -10,50 +10,38 @@ function parsejs(obj) {
 function createtable(data, pagination = null) {
     let tbodyid = document.getElementById('table_class');
     tbodyid.innerHTML = '';
-    let pag = document.getElementById('pagination');
-    pag.innerHTML = '';
-    countrows = data.countall[0][0] / count_pagination;
-    if (pagination === null) {
-        pagination = 1;
-    }
-    for (i = 1; i <= countrows; i++) {
-        if (i !== pagination) {
-            addclass = ' point';
-        } else {
-            addclass = '';
+    if (data.array.length) {
+        let pag = document.getElementById('pagination');
+        pag.innerHTML = '';
+        countrows = Math.ceil(data.countall[0][0] / count_pagination);
+        if (pagination === null) {
+            pagination = 1;
         }
-        pag.innerHTML += '<div class="pag' + addclass + '" onclick="switch_pag(' + i + ')">' + i + '</div>';
-    }
-    data.array.forEach(elem => {
-            tbodyid.innerHTML += '<tr>' +
-                '<td>' + elem.table_date + '</td>' +
-                '<td>' + elem.table_name + '</td>' +
-                '<td>' + elem.table_count + '</td>' +
-                '<td>' + elem.table_distance + '</td>' +
-                '</tr>'
+        for (i = 1; i <= countrows; i++) {
+            if (i !== pagination) {
+                addclass = ' point';
+            } else {
+                addclass = '';
+            }
+            pag.innerHTML += '<div class="pag' + addclass + '" onclick="switch_pag(' + i + ')">' + i + '</div>';
         }
-    );
+        data.array.forEach(elem => {
+                tbodyid.innerHTML += '<tr>' +
+                    '<td>' + elem.table_date + '</td>' +
+                    '<td>' + elem.table_name + '</td>' +
+                    '<td>' + elem.table_count + '</td>' +
+                    '<td>' + elem.table_distance + '</td>' +
+                    '</tr>'
+            }
+        );
+    } else {
+        document.getElementById('pagination').innerHTML = 'Ничего не найдено';
+    }
 }
 
 function switch_pag(y) {
-    limit = (y-1)*count_pagination;
-    loadurl('request.php?table_name=' + table_name + '&limit=' + limit, 'POST', '', y++);
-    /*
-     pag = document.getElementsByClassName('pag');
-     for (i = 0; i < pag.length; i++) {
-         pag[i].classList.add('point');
-         pagi = document.getElementsByClassName('pag' + i);
-         for (z = 0; z < pagi.length; z++) {
-             pagi[z].style.display = 'none';
-         }
-
-     }
-     y--;
-     pag[y].classList.remove('point');
-     pagi = document.getElementsByClassName('pag' + y);
-     for (z = 0; z < pagi.length; z++) {
-         pagi[z].style.display = 'table-row';
-     }*/
+    limit = (y - 1) * count_pagination;
+    loadurl('request.php?table_name=' + table_name + '&limit=' + limit, 'POST', form_data, y++);
 }
 
 function loadurl(filename, method, send = null, pagination = null) {
@@ -83,5 +71,5 @@ function table_select_filter(table_filter_option) {
 
 function table_filter() {
     form_data = new FormData(document.forms.tableform);
-    loadurl('request.php?table=' + table_name, 'POST', form_data);
+    loadurl('request.php?table_name=' + table_name, 'POST', form_data);
 }
