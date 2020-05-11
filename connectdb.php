@@ -3,15 +3,17 @@
 
 class connectdb
 {
-    protected $db, $login, $password, $sql;
+    protected $db, $login, $password, $sql, $dbname;
 
     function __construct()
     {
         $this->login = 'root';
         $this->password = 'root';
         $this->db = 'localhost';
+        $this->dbname = 'table_table';
         try {
-            $this->sql = new PDO('mysql:host=' . $this->db . ';dbname=table_table;', $this->login, $this->password);
+            $this->sql = new PDO('mysql:host=' . $this->db . ';dbname=' . $this->dbname . ';',
+                $this->login, $this->password);
         } catch (PDOException $e) {
             print "Error:" . $e->getMessage();
             die();

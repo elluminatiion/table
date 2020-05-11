@@ -78,7 +78,7 @@ function table_select_filter(table_filter_option) {
         }
         table_filter.innerHTML = '<input name="result"' + table_cond + '> ' +
             '<input type="button" onclick="table_filter()" value="Найти">';
-        document.getElementById('symbol_filter').style.display = 'block';
+        document.getElementById('symbol_filter').style.display = 'inline-block';
     }
 }
 

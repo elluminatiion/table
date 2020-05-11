@@ -21,3 +21,6 @@
 #pagination {
     text-align: center;
 }
+ #table_filter {
+    display: inline-block;
+}
