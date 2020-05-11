@@ -1,7 +1,8 @@
 let form_data;
 let count_pagination = 4; //Количество строк для вывода
-let table_name = 'table_form&rows=' + count_pagination;//название таблицы
-loadurl('request.php?table_name=' + table_name, 'GET');
+let table_name = 'table_form';//название таблицы
+let fileurl = 'request.php?table_name=' + table_name + '&rows=' + count_pagination;
+loadurl(fileurl, 'GET');
 
 function parsejs(obj) {
     return JSON.parse(obj);
@@ -18,11 +19,7 @@ function createtable(data, pagination = null) {
             pagination = 1;
         }
         for (i = 1; i <= countrows; i++) {
-            if (i !== pagination) {
-                addclass = ' point';
-            } else {
-                addclass = '';
-            }
+            addclass = (i !== pagination? ' point':'');
             pag.innerHTML += '<div class="pag' + addclass + '" onclick="switch_pag(' + i + ')">' + i + '</div>';
         }
         data.array.forEach(elem => {
@@ -41,7 +38,7 @@ function createtable(data, pagination = null) {
 
 function switch_pag(y) {
     limit = (y - 1) * count_pagination;
-    loadurl('request.php?table_name=' + table_name + '&limit=' + limit, 'POST', form_data, y++);
+    loadurl(fileurl + '&limit=' + limit, 'POST', form_data, y++);
 }
 
 function loadurl(filename, method, send = null, pagination = null) {
@@ -59,10 +56,7 @@ function loadurl(filename, method, send = null, pagination = null) {
 function table_select_filter(table_filter_option) {
     if (table_filter_option) {
         let table_filter = document.getElementById('table_filter');
-        let table_cond = '';
-        if (table_filter_option !== 'table_name') {
-            table_cond = ' type="number"'
-        }
+        let table_cond = (table_filter_option !== 'table_name'? ' type="number"' : '');
         table_filter.innerHTML = '<input name="result"' + table_cond + '> ' +
             '<input type="button" onclick="table_filter()" value="Найти">';
         document.getElementById('symbol_filter').style.display = 'inline-block';
@@ -71,5 +65,5 @@ function table_select_filter(table_filter_option) {
 
 function table_filter() {
     form_data = new FormData(document.forms.tableform);
-    loadurl('request.php?table_name=' + table_name, 'POST', form_data);
+    loadurl(fileurl, 'POST', form_data);
 }
