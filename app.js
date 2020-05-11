@@ -12,6 +12,7 @@ function createtable(data) {
     let i = 0;
     let y = 0;
     let pag = document.getElementById('pagination');
+    pag.innerHTML = '';
     data.forEach(elem => {
             if (i <= 3) {
                 i++;
